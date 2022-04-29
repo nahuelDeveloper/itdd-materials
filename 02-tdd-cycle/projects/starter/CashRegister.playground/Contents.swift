@@ -33,16 +33,26 @@
 import XCTest
 
 class CashRegister {
-  
+  var availableFunds: Decimal
+
+  init(availableFunds: Decimal) {
+    self.availableFunds = availableFunds
+  }
 }
 
 class CashRegisterTests: XCTestCase {
-
-  // 1
-  func testInit_createsCashRegister() {
-    // 2
-    XCTAssertNotNil(CashRegister())
+  
+  func testInitAvailableFunds_setsAvailableFunds() {
+    // given
+    let availableFunds = Decimal(100)
+    
+    // when
+    let sut = CashRegister(availableFunds: availableFunds)
+    
+    // then
+    XCTAssertEqual(sut.availableFunds, availableFunds)
   }
+
 
 }
 
