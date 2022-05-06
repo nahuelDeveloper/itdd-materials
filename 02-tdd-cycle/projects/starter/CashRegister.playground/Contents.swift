@@ -43,6 +43,11 @@ class CashRegister {
   func addItem(_ cost: Decimal) {
     transactionTotal += cost
   }
+  
+  func addCashPayment(_ cashPayment: Decimal) {
+    transactionTotal -= cashPayment
+    availableFunds += cashPayment
+  }
 
 }
 
@@ -93,7 +98,29 @@ class CashRegisterTests: XCTestCase {
     XCTAssertEqual(sut.transactionTotal, expectedTotal)
   }
 
-
+  func testAcceptCashPayment_subtractsPaymentFromTransactionTotal() {
+    // given
+    let cashPayment = itemCost!
+    
+    // when
+    sut.addItem(itemCost)
+    sut.addCashPayment(cashPayment)
+    
+    // then
+    XCTAssertEqual(sut.transactionTotal, 0)
+  }
+  
+  func testAcceptCashPayment_addsPaymentToAvailableFunds() {
+    // given
+    let cashPayment = itemCost!
+    let initialAvailableFunds = sut.availableFunds
+    
+    // when
+    sut.addCashPayment(cashPayment)
+    
+    // then
+    XCTAssertEqual(sut.availableFunds, initialAvailableFunds + cashPayment)
+  }
 }
 
 CashRegisterTests.defaultTestSuite.run()
