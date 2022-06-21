@@ -31,7 +31,7 @@
 /// THE SOFTWARE.
 
 import XCTest
-import FitNess
+@testable import FitNess
 
 class AppModelTests: XCTestCase {
   

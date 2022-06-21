@@ -32,7 +32,7 @@
 
 import Foundation
 
-public class AppModel {
+internal class AppModel {
   static let instance = AppModel()
   
   public var appState: AppState = .notStarted

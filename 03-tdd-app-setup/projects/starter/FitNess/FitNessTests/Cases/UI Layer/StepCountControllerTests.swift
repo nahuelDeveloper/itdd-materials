@@ -47,6 +47,12 @@ class StepCountControllerTests: XCTestCase {
     try super.tearDownWithError()
   }
   
+  // MARK: - When
+  
+  private func whenStartStopPauseCalled() {
+    sut.startStopPause(nil)
+  }
+  
   // MARK: - Initial State
 
   func testController_whenCreated_buttonLabelIsStart() {
@@ -61,7 +67,7 @@ class StepCountControllerTests: XCTestCase {
   
   func testController_whenStartTapped_appIsInProgress() {
     // when
-    sut.startStopPause(nil)
+    whenStartStopPauseCalled()
 
     // then
     let state = AppModel.instance.appState
@@ -70,7 +76,7 @@ class StepCountControllerTests: XCTestCase {
   
   func testController_whenStartTapped_buttonLabelIsPause() {
     // when
-    sut.startStopPause(nil)
+    whenStartStopPauseCalled()
 
     // then
     let text = sut.startButton.title(for: .normal)
