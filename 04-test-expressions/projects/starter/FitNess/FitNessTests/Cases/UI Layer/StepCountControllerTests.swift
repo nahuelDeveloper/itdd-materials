@@ -48,7 +48,10 @@ class StepCountControllerTests: XCTestCase {
   }
 
   // MARK: - Given
-
+  func givenGoalSet() {
+    AppModel.instance.dataModel.goal = 1000
+  }
+  
   // MARK: - When
   private func whenStartStopPauseCalled() {
     sut.startStopPause(nil)
@@ -70,6 +73,9 @@ class StepCountControllerTests: XCTestCase {
   // MARK: - In Progress
 
   func testController_whenStartTapped_appIsInProgress() {
+    // given
+    givenGoalSet()
+    
     // when
     whenStartStopPauseCalled()
 
@@ -79,6 +85,9 @@ class StepCountControllerTests: XCTestCase {
   }
 
   func testController_whenStartTapped_buttonLabelIsPause() {
+    // given
+    givenGoalSet()
+    
     // when
     whenStartStopPauseCalled()
 
