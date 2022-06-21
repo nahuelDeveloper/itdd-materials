@@ -1,4 +1,4 @@
-/// Copyright (c) 2021 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -30,20 +30,39 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
-import Foundation
+import XCTest
+@testable import FitNess
 
-// Add the Data Model class here:
-class DataModel {
+class DataModelTests: XCTestCase {
   
-  var goal: Int?
-  var steps: Int = 0
+    var sut: DataModel!
+
+  override func setUpWithError() throws {
+    try super.setUpWithError()
+    sut = DataModel()
+  }
+
+  override func tearDownWithError() throws {
+    sut = nil
+    try super.tearDownWithError()
+  }
   
-  var goalReached: Bool {
-    if let goal = goal,
-      steps >= goal {
-        return true
-    }
-    return false
+  // MARK: - Goal
+  func testModel_whenStarted_goalIsNotReached() {
+    XCTAssertFalse(
+      sut.goalReached,
+      "goalReached should be false when the model is created")
+  }
+  
+  func testModel_whenStepsReachGoal_goalIsReached() {
+    // given
+    sut.goal = 1000
+
+    // when
+    sut.steps = 1000
+
+    // then
+    XCTAssertTrue(sut.goalReached)
   }
 
 }
