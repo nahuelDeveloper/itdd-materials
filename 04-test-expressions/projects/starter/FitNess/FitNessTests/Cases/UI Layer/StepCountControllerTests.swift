@@ -39,17 +39,24 @@ class StepCountControllerTests: XCTestCase {
 
   override func setUpWithError() throws {
     try super.setUpWithError()
-    sut = StepCountController()
+    let rootController = getRootViewController()
+    sut = rootController.stepController
   }
 
   override func tearDownWithError() throws {
     sut = nil
+    AppModel.instance.dataModel.goal = nil
     try super.tearDownWithError()
   }
 
   // MARK: - Given
   func givenGoalSet() {
     AppModel.instance.dataModel.goal = 1000
+  }
+  
+  func givenInProgress() {
+    givenGoalSet()
+    sut.startStopPause(nil)
   }
   
   // MARK: - When
@@ -60,9 +67,6 @@ class StepCountControllerTests: XCTestCase {
   // MARK: - Initial State
 
   func testController_whenCreated_buttonLabelIsStart() {
-    // given
-    sut.viewDidLoad()
-
     // then
     let text = sut.startButton.title(for: .normal)
     XCTAssertEqual(text, AppState.notStarted.nextStateButtonLabel)
@@ -70,6 +74,14 @@ class StepCountControllerTests: XCTestCase {
 
   // MARK: - Goal
 
+  func testDataModel_whenGoalUpdate_updatesToNewGoal() {
+    // when
+    sut.updateGoal(newGoal: 50)
+
+    // then
+    XCTAssertEqual(AppModel.instance.dataModel.goal, 50)
+  }
+  
   // MARK: - In Progress
 
   func testController_whenStartTapped_appIsInProgress() {
@@ -97,4 +109,20 @@ class StepCountControllerTests: XCTestCase {
   }
 
   // MARK: - Chase View
+  
+  func testChaseView_whenLoaded_isNotStarted() {
+    // when loaded, then
+    let chaseView = sut.chaseView
+    XCTAssertEqual(chaseView?.state, .notStarted)
+  }
+  
+  func testChaseView_whenInProgress_viewIsInProgress() {
+    // given
+    givenInProgress()
+
+    // then
+    let chaseView = sut.chaseView
+    XCTAssertEqual(chaseView?.state, .inProgress)
+  }
+
 }
